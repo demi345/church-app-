@@ -32,11 +32,7 @@ st.markdown(
     }
     
     h1, h2, h3, h4, h5, h6 { 
-        color: #F0F0F0; 
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
         font-weight: 600;
-        -webkit-font-smoothing: antialiased;
-        text-rendering: optimizeLegibility;
     }
     
     /* Mobile heading adjustments */
@@ -47,11 +43,7 @@ st.markdown(
         h4 { font-size: 1.1rem; line-height: 1.4; }
     }
     
-    p, div, span, label {
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
-        font-weight: 400;
-        -webkit-font-smoothing: antialiased;
-    }
+
 
     .panel {
         background-color: #1B263B;
@@ -59,22 +51,21 @@ st.markdown(
         border-radius: 10px;
         margin-bottom: 15px;
         border: 1px solid #2E4057;
-        font-family: 'Inter', sans-serif;
     }
+    
+
 
     .stTextInput>div>div>input,
     .stSelectbox>div>div>div>select {
         background-color: #1B263B;
-        color: #FFFFFF;
         border: 2px solid #1B263B;
         border-radius: 5px;
         transition: border 0.3s;
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
-        font-size: 16px; /* Minimum 16px to prevent iOS zoom */
-        font-weight: 400;
-        -webkit-font-smoothing: antialiased;
-        -webkit-appearance: none; /* Remove iOS styling */
+        font-size: 16px;
+        -webkit-appearance: none;
     }
+    
+
     
     /* Mobile input optimizations */
     @media (max-width: 768px) {
@@ -91,14 +82,12 @@ st.markdown(
     }
 
     .stButton>button {
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
         font-weight: 600;
         font-size: 16px;
         border-radius: 8px;
         transition: transform 0.2s, background-color 0.2s;
-        -webkit-font-smoothing: antialiased;
         padding: 12px 24px;
-        min-height: 44px; /* iOS touch target minimum */
+        min-height: 44px;
     }
     
     /* Mobile button optimizations */
@@ -113,8 +102,6 @@ st.markdown(
 
     div.stButton > button:first-of-type {
         background-color: #28a745;
-        color: white;
-        font-weight: 600;
     }
     div.stButton > button:first-of-type:hover {
         transform: scale(1.02);
@@ -123,12 +110,43 @@ st.markdown(
 
     div.stButton > button:last-of-type {
         background-color: #fd7e14;
-        color: white;
-        font-weight: 600;
     }
     div.stButton > button:last-of-type:hover {
         transform: scale(1.02);
         background-color: #e06c00;
+    }
+    
+    /* Registration submit button styling */
+    .stForm .stButton > button {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        font-weight: 700;
+        font-size: 18px;
+        padding: 16px 32px;
+        border-radius: 12px;
+        border: none;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        transition: all 0.3s ease;
+        width: 100%;
+        min-height: 56px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    
+    .stForm .stButton > button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+        background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+    }
+    
+    .stForm .stButton > button:active {
+        transform: translateY(0px);
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    }
+    
+    /* Universal white text override */
+    .stApp * {
+        color: #FFFFFF !important;
     }
     </style>
     """,
@@ -136,7 +154,8 @@ st.markdown(
 )
 
 # ---------- Configuration ----------
-CHURCH_LOCATION = (39.8991, -74.9366)
+# St. Anthony Coptic Orthodox Church, 267 Hartford Rd, Medford, NJ 08055
+CHURCH_LOCATION = (39.8637, -74.8284)
 MAX_DISTANCE_METERS = 10000  # 10km for testing - change to 100 for production
 SHEET_NAME = "Volunteer Hours"
 PUNCH_SHEET = "Sheet1"
@@ -196,8 +215,8 @@ tab1, tab2 = st.tabs(["📝 Volunteer Registration", "⏱ Punch In/Out"])
 
 # ---------- TAB 1: Registration ----------
 with tab1:
-    st.markdown("<h1 style='color:#F0F0F0'>🌟 Volunteer Registration Form 🌟</h1>", unsafe_allow_html=True)
-    st.markdown("<p style='color:#B0C4DE'>Please fill out your information below.</p>", unsafe_allow_html=True)
+    st.markdown("<h1>🌟 Volunteer Registration Form 🌟</h1>", unsafe_allow_html=True)
+    st.markdown("<p>Please fill out your information below.</p>", unsafe_allow_html=True)
 
     with st.form("registration_form"):
         st.markdown('<div class="panel">', unsafe_allow_html=True)
@@ -252,8 +271,8 @@ with tab1:
 # ---------- TAB 2: Punch In/Out ----------
 with tab2:
     st.markdown('<div class="panel">', unsafe_allow_html=True)
-    st.markdown("<h1 style='color:#F0F0F0'>⏱ Punch In/Out</h1>", unsafe_allow_html=True)
-    st.markdown("<p style='color:#B0C4DE'>Enter your name, select your service, and make sure your location is enabled.</p>", unsafe_allow_html=True)
+    st.markdown("<h1>⏱ Punch In/Out</h1>", unsafe_allow_html=True)
+    st.markdown("<p>Enter your name, select your service, and make sure your location is enabled.</p>", unsafe_allow_html=True)
 
     col1, col2 = st.columns(2)
     name = col1.text_input("Full Name*", key="punch_name")
@@ -277,7 +296,8 @@ with tab2:
         st.stop()
     
     st.info(f"📍 Your location: {lat:.4f}, {lon:.4f}")
-    st.info(f"🏢 Church location: {CHURCH_LOCATION[0]}, {CHURCH_LOCATION[1]}")
+    st.info(f"🏢 St. Anthony Coptic Orthodox Church: {CHURCH_LOCATION[0]}, {CHURCH_LOCATION[1]}")
+    st.info("📍 267 Hartford Rd, Medford, NJ 08055")
     
     distance = geodesic(CHURCH_LOCATION, (lat, lon)).meters
     st.info(f"📏 Distance to church: {distance:.1f} meters ({distance/1000:.2f} km)")
