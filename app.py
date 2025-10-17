@@ -6,6 +6,14 @@ from oauth2client.service_account import ServiceAccountCredentials
 from streamlit_javascript import st_javascript
 import random
 
+# ---------- Page Configuration ----------
+st.set_page_config(
+    page_title="St. Anthony Volunteer System",
+    page_icon="⛪",
+    layout="wide",
+    initial_sidebar_state="collapsed"
+)
+
 # ---------- CSS: Dark blue theme, panels, hover effects ----------
 st.markdown(
     """
@@ -196,7 +204,7 @@ st.markdown(
 # ---------- Configuration ----------
 # St. Anthony Coptic Orthodox Church, 267 Hartford Rd, Medford, NJ 08055
 CHURCH_LOCATION = (39.8637, -74.8284)
-MAX_DISTANCE_METERS = 10000  # 10km for testing - change to 100 for production
+MAX_DISTANCE_METERS = 100  # 100m for production - volunteers must be at church
 SHEET_NAME = "Volunteer Hours"
 PUNCH_SHEET = "Sheet1"
 REGISTRATION_SHEET = "Registration"
@@ -254,7 +262,6 @@ tab1, tab2 = st.tabs(["📝 Volunteer Registration", "⏱ Punch In/Out"])
 with tab1:
     st.markdown("<h1>🌟 Volunteer Registration Form 🌟</h1>", unsafe_allow_html=True)
     st.markdown("<p>Please fill out your information below.</p>", unsafe_allow_html=True)
-
     with st.form("registration_form"):
         st.markdown('<div class="panel">', unsafe_allow_html=True)
         st.subheader("Personal Information")
@@ -310,14 +317,12 @@ with tab2:
     st.markdown('<div class="panel">', unsafe_allow_html=True)
     st.markdown("<h1>⏱ Punch In/Out</h1>", unsafe_allow_html=True)
     st.markdown("<p>Enter your name, select your service, and make sure your location is enabled.</p>", unsafe_allow_html=True)
-
     col1, col2 = st.columns(2)
     name = col1.text_input("Full Name*", key="punch_name")
     service = col2.selectbox("Select Service", ["Food Stand", "Parking", "Setup/Cleanup", "Other"], key="punch_service")
     st.markdown('</div>', unsafe_allow_html=True)
 
-    # Location verification with debugging
-    st.markdown("#### 🔍 Location Debug Info:")
+    # Location verification
     coords = st_javascript("""
         new Promise((resolve) => {
             if (!navigator.geolocation) {
@@ -354,17 +359,12 @@ with tab2:
         st.info("🔄 Please wait while we get your location...")
         st.stop()
     
-    st.info(f"📍 Your location: {lat:.4f}, {lon:.4f}")
-    st.info(f"🏢 St. Anthony Coptic Orthodox Church: {CHURCH_LOCATION[0]}, {CHURCH_LOCATION[1]}")
-    st.info("📍 267 Hartford Rd, Medford, NJ 08055")
-    
     distance = geodesic(CHURCH_LOCATION, (lat, lon)).meters
-    st.info(f"📏 Distance to church: {distance:.1f} meters ({distance/1000:.2f} km)")
 
     if name:
         if distance > MAX_DISTANCE_METERS:
-            st.error(f"❌ You are {distance:.1f}m from the church (max allowed: {MAX_DISTANCE_METERS}m)")
-            st.info("🔧 For testing, distance limit is set to 10km. Change MAX_DISTANCE_METERS to 100 for production.")
+            st.error("❌ You must be at St. Anthony Coptic Orthodox Church to punch in/out.")
+            st.info("� Please ensure you are within the church grounds and try again.")
             st.stop()
         else:
             st.success("✅ Location verified! You can punch in/out. 🙏")
