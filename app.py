@@ -10,8 +10,48 @@ import random
 st.markdown(
     """
     <style>
-    .stApp { background-color: #0D1B2A; color: #FFFFFF; }
-    h1, h2, h3 { color: #F0F0F0; }
+    /* Import consistent fonts */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    /* Mobile-first responsive font sizing and styling */
+    .stApp { 
+        background-color: #0D1B2A; 
+        color: #FFFFFF; 
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-rendering: optimizeLegibility;
+    }
+    
+    /* Mobile font optimization */
+    @media (max-width: 768px) {
+        .stApp {
+            font-size: 16px; /* Prevent iOS zoom on focus */
+            line-height: 1.5;
+        }
+    }
+    
+    h1, h2, h3, h4, h5, h6 { 
+        color: #F0F0F0; 
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+        font-weight: 600;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+    }
+    
+    /* Mobile heading adjustments */
+    @media (max-width: 768px) {
+        h1 { font-size: 1.8rem; line-height: 1.2; }
+        h2 { font-size: 1.5rem; line-height: 1.3; }
+        h3 { font-size: 1.3rem; line-height: 1.3; }
+        h4 { font-size: 1.1rem; line-height: 1.4; }
+    }
+    
+    p, div, span, label {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+        font-weight: 400;
+        -webkit-font-smoothing: antialiased;
+    }
 
     .panel {
         background-color: #1B263B;
@@ -19,6 +59,7 @@ st.markdown(
         border-radius: 10px;
         margin-bottom: 15px;
         border: 1px solid #2E4057;
+        font-family: 'Inter', sans-serif;
     }
 
     .stTextInput>div>div>input,
@@ -28,6 +69,21 @@ st.markdown(
         border: 2px solid #1B263B;
         border-radius: 5px;
         transition: border 0.3s;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+        font-size: 16px; /* Minimum 16px to prevent iOS zoom */
+        font-weight: 400;
+        -webkit-font-smoothing: antialiased;
+        -webkit-appearance: none; /* Remove iOS styling */
+    }
+    
+    /* Mobile input optimizations */
+    @media (max-width: 768px) {
+        .stTextInput>div>div>input,
+        .stSelectbox>div>div>div>select {
+            padding: 12px 16px;
+            font-size: 16px;
+            line-height: 1.4;
+        }
     }
     .stTextInput>div>div>input:hover,
     .stSelectbox>div>div>div>select:hover {
@@ -35,28 +91,43 @@ st.markdown(
     }
 
     .stButton>button {
-        font-weight: bold;
-        border-radius: 5px;
-        transition: transform 0.2s;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+        font-weight: 600;
+        font-size: 16px;
+        border-radius: 8px;
+        transition: transform 0.2s, background-color 0.2s;
+        -webkit-font-smoothing: antialiased;
+        padding: 12px 24px;
+        min-height: 44px; /* iOS touch target minimum */
+    }
+    
+    /* Mobile button optimizations */
+    @media (max-width: 768px) {
+        .stButton>button {
+            width: 100%;
+            padding: 16px 24px;
+            font-size: 17px;
+            min-height: 48px;
+        }
     }
 
     div.stButton > button:first-of-type {
         background-color: #28a745;
         color: white;
-        font-weight: bold;
+        font-weight: 600;
     }
     div.stButton > button:first-of-type:hover {
-        transform: scale(1.05);
+        transform: scale(1.02);
         background-color: #218838;
     }
 
     div.stButton > button:last-of-type {
         background-color: #fd7e14;
         color: white;
-        font-weight: bold;
+        font-weight: 600;
     }
     div.stButton > button:last-of-type:hover {
-        transform: scale(1.05);
+        transform: scale(1.02);
         background-color: #e06c00;
     }
     </style>
