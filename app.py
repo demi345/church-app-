@@ -148,6 +148,46 @@ st.markdown(
     .stApp * {
         color: #FFFFFF !important;
     }
+    
+    /* Mobile-specific font color fixes */
+    @media (max-width: 768px) {
+        .stApp, .stApp * {
+            color: #FFFFFF !important;
+        }
+        
+        /* Force white text on mobile form elements */
+        .stTextInput input,
+        .stSelectbox select,
+        .stRadio div,
+        .stCheckbox div,
+        .stTextArea textarea {
+            color: #FFFFFF !important;
+            -webkit-text-fill-color: #FFFFFF !important;
+        }
+        
+        /* Mobile Safari specific fixes */
+        input, select, textarea {
+            color: #FFFFFF !important;
+            -webkit-text-fill-color: #FFFFFF !important;
+        }
+        
+        /* Mobile alert and info messages */
+        .stAlert div,
+        .stInfo div,
+        .stSuccess div,
+        .stWarning div,
+        .stError div {
+            color: #FFFFFF !important;
+        }
+        
+        /* Mobile markdown and text elements */
+        .stMarkdown,
+        .stMarkdown *,
+        [data-testid="stMarkdownContainer"],
+        [data-testid="stMarkdownContainer"] * {
+            color: #FFFFFF !important;
+        }
+    }
     </style>
     """,
     unsafe_allow_html=True
@@ -162,7 +202,6 @@ PUNCH_SHEET = "Sheet1"
 REGISTRATION_SHEET = "Registration"
 
 # ---------- Connect to Google Sheets ----------
-# Note: No actual credentials are stored in this file
 # Production uses environment secrets, development uses local config file
 try:
     scope = [
@@ -182,7 +221,6 @@ try:
     except:
         # Use local configuration file for development
         auth_creds = ServiceAccountCredentials.from_json_keyfile_name("service_account.json", scope)
-        st.info("📁 Using local development configuration")
     
     client = gspread.authorize(auth_creds)
     punch_sheet = client.open(SHEET_NAME).worksheet(PUNCH_SHEET)
@@ -196,7 +234,6 @@ except FileNotFoundError:
     reg_sheet = None
 except Exception as e:
     st.error(f"❌ Google Sheets connection error: {str(e)}")
-    st.info("💡 Check your service account setup and sheet permissions.")
     SHEETS_ENABLED = False
     punch_sheet = None
     reg_sheet = None
@@ -281,11 +318,32 @@ with tab2:
 
     # Location verification with debugging
     st.markdown("#### 🔍 Location Debug Info:")
-    coords = st_javascript("navigator.geolocation.getCurrentPosition(pos => pos.coords);")
+    coords = st_javascript("""
+        new Promise((resolve) => {
+            if (!navigator.geolocation) {
+                resolve({error: "Geolocation not supported"});
+                return;
+            }
+            navigator.geolocation.getCurrentPosition(
+                (position) => resolve({
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude
+                }),
+                (error) => resolve({error: error.message}),
+                {timeout: 10000, enableHighAccuracy: true}
+            );
+        });
+    """)
     
     if not coords:
         st.warning("📍 Requesting location access... Please allow location services in your browser.")
         st.info("💡 If you don't see a location popup, check your browser settings or the location icon in the address bar.")
+        st.info("🔄 The page will automatically update once location is granted.")
+        st.stop()
+
+    if 'error' in coords:
+        st.error(f"❌ Location error: {coords['error']}")
+        st.info("💡 Please enable location services and refresh the page.")
         st.stop()
 
     lat = coords.get('latitude', 0)
@@ -293,6 +351,7 @@ with tab2:
     
     if lat == 0 and lon == 0:
         st.warning("⚠️ Waiting for location coordinates...")
+        st.info("🔄 Please wait while we get your location...")
         st.stop()
     
     st.info(f"📍 Your location: {lat:.4f}, {lon:.4f}")
