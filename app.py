@@ -5,7 +5,6 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from streamlit_javascript import st_javascript
 import random
-
 # ---------- Page Configuration ----------
 st.set_page_config(
     page_title="St. Anthony Volunteer System",
@@ -51,8 +50,6 @@ st.markdown(
         h4 { font-size: 1.1rem; line-height: 1.4; }
     }
     
-
-
     .panel {
         background-color: #1B263B;
         padding: 15px;
@@ -61,8 +58,6 @@ st.markdown(
         border: 1px solid #2E4057;
     }
     
-
-
     .stTextInput>div>div>input,
     .stSelectbox>div>div>div>select {
         background-color: #1B263B;
@@ -72,8 +67,6 @@ st.markdown(
         font-size: 16px;
         -webkit-appearance: none;
     }
-    
-
     
     /* Mobile input optimizations */
     @media (max-width: 768px) {
@@ -157,10 +150,55 @@ st.markdown(
         color: #FFFFFF !important;
     }
     
+    /* Reduce spacing between elements */
+    .stMarkdown {
+        margin-bottom: 0.5rem !important;
+        margin-top: 0.5rem !important;
+    }
+    
+    [data-testid="stMarkdownContainer"] {
+        margin-bottom: 0.5rem !important;
+        margin-top: 0.5rem !important;
+        padding-bottom: 0 !important;
+        padding-top: 0 !important;
+    }
+    
+    /* Reduce spacing in tabs and containers */
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 0.5rem;
+    }
+    
+    .stTabs [data-baseweb="tab-panel"] {
+        padding-top: 1rem !important;
+    }
+    
+    /* Tighten form spacing */
+    .stForm {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    
+    /* Reduce column spacing */
+    .row-widget.stHorizontal {
+        gap: 0.5rem !important;
+    }
+    
+    /* Compact text inputs and selectors */
+    .stTextInput, .stSelectbox, .stRadio {
+        margin-bottom: 0.5rem !important;
+    }
+    
+    /* Reduce header spacing */
+    h1, h2, h3, h4, h5, h6 {
+        margin-top: 0.5rem !important;
+        margin-bottom: 0.5rem !important;
+    }
+    
+
+    
     /* Mobile-specific font color fixes */
     @media (max-width: 768px) {
-        .stApp, .stApp * {
-            color: #FFFFFF !important;
+        .stApp, .stApp * {            color: #FFFFFF !important;
         }
         
         /* Force white text on mobile form elements */
