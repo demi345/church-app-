@@ -65,6 +65,42 @@ div.stButton > button:last-of-type {background-color: #fd7e14;}
     font-weight: 600;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
+
+/* Tab 2 specific styling - black text */
+.stTabs [data-baseweb="tab-panel"]:nth-child(2) * {
+    color: #000000 !important;
+}
+.stTabs [data-baseweb="tab-panel"]:nth-child(2) h1 {
+    color: #000000 !important;
+}
+.stTabs [data-baseweb="tab-panel"]:nth-child(2) p {
+    color: #000000 !important;
+}
+.stTabs [data-baseweb="tab-panel"]:nth-child(2) label {
+    color: #000000 !important;
+}
+.stTabs [data-baseweb="tab-panel"]:nth-child(2) .stTextInput label {
+    color: #000000 !important;
+}
+.stTabs [data-baseweb="tab-panel"]:nth-child(2) .stSelectbox label {
+    color: #000000 !important;
+}
+.stTabs [data-baseweb="tab-panel"]:nth-child(2) div {
+    color: #000000 !important;
+}
+/* Keep status messages visible with appropriate colors */
+.stTabs [data-baseweb="tab-panel"]:nth-child(2) .stSuccess {
+    color: #155724 !important;
+    background-color: #d4edda !important;
+}
+.stTabs [data-baseweb="tab-panel"]:nth-child(2) .stError {
+    color: #721c24 !important;
+    background-color: #f8d7da !important;
+}
+.stTabs [data-baseweb="tab-panel"]:nth-child(2) .stInfo {
+    color: #0c5460 !important;
+    background-color: #d1ecf1 !important;
+}
 </style>
 """, unsafe_allow_html=True)
 
