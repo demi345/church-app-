@@ -88,6 +88,19 @@ div.stButton > button:last-of-type {background-color: #fd7e14;}
 .stTabs [data-baseweb="tab-panel"]:nth-child(2) div {
     color: #000000 !important;
 }
+/* Tab 2 input fields - black text */
+.stTabs [data-baseweb="tab-panel"]:nth-child(2) input {
+    color: #000000 !important;
+}
+.stTabs [data-baseweb="tab-panel"]:nth-child(2) .stTextInput input {
+    color: #000000 !important;
+}
+.stTabs [data-baseweb="tab-panel"]:nth-child(2) .stSelectbox select {
+    color: #000000 !important;
+}
+.stTabs [data-baseweb="tab-panel"]:nth-child(2) .stSelectbox div[data-baseweb="select"] {
+    color: #000000 !important;
+}
 /* Keep status messages visible with appropriate colors */
 .stTabs [data-baseweb="tab-panel"]:nth-child(2) .stSuccess {
     color: #155724 !important;
