@@ -50,6 +50,21 @@ st.markdown("""
 div.stButton > button:first-of-type {background-color: #28a745;}
 div.stButton > button:last-of-type {background-color: #fd7e14;}
 .stApp * {color: #FFFFFF !important;}
+.stApp img {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+    margin: 0 auto;
+    display: block;
+}
+.main-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+.main-header h1 {
+    color: #FFFFFF !important;
+    font-weight: 600;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -100,6 +115,32 @@ if st.query_params.get("health") == "check":
         }
     })
     st.stop()
+
+# ------------------ Header with Logo ------------------
+try:
+    # Center the logo above the title
+    st.markdown('<div style="text-align: center; margin-bottom: 20px;">', unsafe_allow_html=True)
+    st.image("stanthonylogo.png", width=150)
+    st.markdown('</div>', unsafe_allow_html=True)
+    
+    # Title with logo positioned above "Anthony"
+    st.markdown("""
+    <div style="text-align: center; margin-top: -10px;">
+        <h1 style="color: #FFFFFF; font-size: 2.5rem; margin: 0;">
+            ⛪ St. Anthony Volunteer System
+        </h1>
+    </div>
+    """, unsafe_allow_html=True)
+    logging.info("Logo loaded successfully")
+except FileNotFoundError:
+    st.markdown("""
+    <div style="text-align: center;">
+        <h1 style="color: #FFFFFF; font-size: 2.5rem;">
+            ⛪ St. Anthony Volunteer System
+        </h1>
+    </div>
+    """, unsafe_allow_html=True)
+    logging.warning("Logo file 'stanthonylogo.png' not found")
 
 # ------------------ Tabs ------------------
 tab1, tab2 = st.tabs(["📝 Volunteer Registration", "⏱ Punch In/Out"])
