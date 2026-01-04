@@ -376,7 +376,7 @@ try:
     st.markdown("""
     <div style="text-align: center; margin-top: -10px;">
         <h1 style="color: #000000; font-size: 2.5rem; margin: 0; font-weight: 600;">
-            ⛪ St. Anthony Volunteer System
+            ⛪ St. Anthony Volunteer Form
         </h1>
     </div>
     """, unsafe_allow_html=True)
@@ -515,11 +515,10 @@ elif qr_action == "punch_out":
 else:
     # Default view - Registration only
     # Registration
-    st.markdown("<h1>☦️ Volunteer Registration Form ☦️</h1>", unsafe_allow_html=True)
+    st.markdown("<h1>Volunteer Registration Form </h1>", unsafe_allow_html=True)
     st.markdown("<p>Please fill out your information below.</p>", unsafe_allow_html=True)
     
     with st.form("registration_form"):
-        st.markdown('<div class="panel">', unsafe_allow_html=True)
         st.subheader("Personal Information")
         col1, col2 = st.columns(2)
         first_name = col1.text_input("First Name*", max_chars=50)
@@ -529,7 +528,7 @@ else:
         age = st.radio("Age*", ["14-18", "18+"])
         st.markdown('</div>', unsafe_allow_html=True)
 
-        st.markdown('<div class="panel">', unsafe_allow_html=True)
+       
         st.subheader("Station Assignment")
         st.markdown("**Select your preferred station and time slots:**")
         
