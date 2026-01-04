@@ -1,14 +1,8 @@
-# Production Requirements for St. Anthony Volunteer System
-streamlit>=1.28.0
-gspread>=5.12.0
-oauth2client>=4.1.3
-geopy>=2.4.0
-requests>=2.31.0
-
-# Security and Performance
-cryptography>=41.0.0
-urllib3>=2.0.0
-certifi>=2023.7.22
-
-# Optional for better performance
-watchdog>=3.0.0
+streamlit==1.52.2
+qrcode[pil]==8.0
+pillow==11.0.0
+reportlab==4.2.5
+geopy==2.4.1
+requests==2.32.3
+gspread==6.1.4
+oauth2client==4.1.3
