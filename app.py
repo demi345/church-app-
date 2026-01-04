@@ -399,59 +399,32 @@ if qr_action == "punch_in":
     st.markdown("<h1>🟢 Volunteer Punch In</h1>", unsafe_allow_html=True)
     
     # Name input
-    st.markdown('<div class="panel">', unsafe_allow_html=True)
     name = st.text_input("Full Name*", key="punch_in_name", placeholder="Enter your full name")
-    st.markdown('</div>', unsafe_allow_html=True)
     
     if name:
-        # Location verification for punch in
-        with st.spinner("🔍 Detecting your location for verification..."):
-            # Use the same location detection logic
-            coords = get_ip_location()
-            
-        # Handle location verification
-        if 'error' in coords:
-            st.error(f"❌ Location error: {coords['error']}")
-            st.error("🚫 Unable to verify your location. Please check your internet connection and try again.")
-            st.info("💡 For security reasons, location verification is required for punch in/out.")
-        else:
-            lat = coords.get('latitude', 0)
-            lon = coords.get('longitude', 0)
-            
-            distance = geodesic(CHURCH_LOCATION, (lat, lon)).meters
-            
-            if distance > MAX_DISTANCE_METERS:
-                st.error("❌ You must be at St. Anthony Coptic Orthodox Church to punch in.")
-                st.info("📍 Please ensure you are within the church grounds and try again.")
+        # Punch In Section
+        st.markdown('<p style="text-align: center; color: #155724; margin-bottom: 20px;">Start your volunteer service</p>', unsafe_allow_html=True)
+        
+        if st.button("🟢 Punch In Now", key="qr_punch_in", use_container_width=True):
+            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            if SHEETS_ENABLED:
+                try:
+                    punch_sheet.append_row([name, "In", timestamp])
+                    st.success(f"👋 Welcome {name}! You've successfully punched in. 🌟")
+                    logging.info(f"Punch IN: {name} - {timestamp}")
+                except Exception as e:
+                    st.error(f"❌ Failed to save punch in: {str(e)}")
+                    st.info(f"📝 Punch data: {name} - In - {timestamp}")
             else:
-                st.success("✅ Location verified! You can punch in. 🙏")
-                
-                # Punch In Section
-                st.markdown('<div class="punch-in-panel">', unsafe_allow_html=True)
-                st.markdown('<div class="panel-header punch-in-header">🟢 PUNCH IN</div>', unsafe_allow_html=True)
-                st.markdown('<p style="text-align: center; color: #155724; margin-bottom: 20px;">Start your volunteer service</p>', unsafe_allow_html=True)
-                
-                if st.button("🟢 Punch In Now", key="qr_punch_in", use_container_width=True):
-                    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                    if SHEETS_ENABLED:
-                        try:
-                            punch_sheet.append_row([name, "In", timestamp])
-                            st.success(f"👋 Welcome {name}! You've successfully punched in. 🌟")
-                            logging.info(f"Punch IN: {name} - {timestamp}")
-                        except Exception as e:
-                            st.error(f"❌ Failed to save punch in: {str(e)}")
-                            st.info(f"📝 Punch data: {name} - In - {timestamp}")
-                    else:
-                        st.success(f"👋 Welcome {name}! You've successfully punched in. 🌟")
-                        st.info(f"📝 Punch data: {name} - In - {timestamp}")
-                    
-                    verse = random.choice(volunteer_verses)
-                    st.info(f"📖 Verse for you: {verse}")
-                
-                st.markdown('</div>', unsafe_allow_html=True)
+                st.success(f"👋 Welcome {name}! You've successfully punched in. 🌟")
+                st.info(f"📝 Punch data: {name} - In - {timestamp}")
+            
+            verse = random.choice(volunteer_verses)
+            st.info(f"📖 Verse for you: {verse}")
+        
+        st.markdown('</div>', unsafe_allow_html=True)
     else:
-        st.info("📝 Please enter your name to start the punch in process.")
-        st.info("🔒 Location verification will begin once you enter your name.")
+        st.info("📝 Please enter your name to punch in.")
 
 elif qr_action == "punch_out":
     # Show only Punch Out interface
@@ -459,58 +432,34 @@ elif qr_action == "punch_out":
     st.markdown("<h1>🔴 Volunteer Punch Out</h1>", unsafe_allow_html=True)
     
     # Name input
-    st.markdown('<div class="panel">', unsafe_allow_html=True)
     name = st.text_input("Full Name*", key="punch_out_name", placeholder="Enter your full name")
-    st.markdown('</div>', unsafe_allow_html=True)
     
     if name:
-        # Location verification for punch out
-        with st.spinner("🔍 Detecting your location for verification..."):
-            coords = get_ip_location()
-            
-        # Handle location verification
-        if 'error' in coords:
-            st.error(f"❌ Location error: {coords['error']}")
-            st.error("🚫 Unable to verify your location. Please check your internet connection and try again.")
-            st.info("💡 For security reasons, location verification is required for punch in/out.")
-        else:
-            lat = coords.get('latitude', 0)
-            lon = coords.get('longitude', 0)
-            
-            distance = geodesic(CHURCH_LOCATION, (lat, lon)).meters
-            
-            if distance > MAX_DISTANCE_METERS:
-                st.error("❌ You must be at St. Anthony Coptic Orthodox Church to punch out.")
-                st.info("📍 Please ensure you are within the church grounds and try again.")
+        # Punch Out Section
+        st.markdown('<div class="punch-out-panel">', unsafe_allow_html=True)
+        st.markdown('<div class="panel-header punch-out-header">🔴 PUNCH OUT</div>', unsafe_allow_html=True)
+        st.markdown('<p style="text-align: center; color: #721C24; margin-bottom: 20px;">Complete your volunteer service</p>', unsafe_allow_html=True)
+        
+        if st.button("🔴 Punch Out Now", key="qr_punch_out", use_container_width=True):
+            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            if SHEETS_ENABLED:
+                try:
+                    punch_sheet.append_row([name, "Out", timestamp])
+                    st.success(f"🎉 Great job, {name}! You've successfully punched out. 🙏")
+                    logging.info(f"Punch OUT: {name} - {timestamp}")
+                except Exception as e:
+                    st.error(f"❌ Failed to save punch out: {str(e)}")
+                    st.info(f"📝 Punch data: {name} - Out - {timestamp}")
             else:
-                st.success("✅ Location verified! You can punch out. 🙏")
-                
-                # Punch Out Section
-                st.markdown('<div class="punch-out-panel">', unsafe_allow_html=True)
-                st.markdown('<div class="panel-header punch-out-header">🔴 PUNCH OUT</div>', unsafe_allow_html=True)
-                st.markdown('<p style="text-align: center; color: #721C24; margin-bottom: 20px;">Complete your volunteer service</p>', unsafe_allow_html=True)
-                
-                if st.button("🔴 Punch Out Now", key="qr_punch_out", use_container_width=True):
-                    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                    if SHEETS_ENABLED:
-                        try:
-                            punch_sheet.append_row([name, "Out", timestamp])
-                            st.success(f"🎉 Great job, {name}! You've successfully punched out. 🙏")
-                            logging.info(f"Punch OUT: {name} - {timestamp}")
-                        except Exception as e:
-                            st.error(f"❌ Failed to save punch out: {str(e)}")
-                            st.info(f"📝 Punch data: {name} - Out - {timestamp}")
-                    else:
-                        st.success(f"🎉 Great job, {name}! You've successfully punched out. 🙏")
-                        st.info(f"📝 Punch data: {name} - Out - {timestamp}")
-                    
-                    verse = random.choice(volunteer_verses)
-                    st.info(f"📖 Verse for you: {verse}")
-                
-                st.markdown('</div>', unsafe_allow_html=True)
+                st.success(f"🎉 Great job, {name}! You've successfully punched out. 🙏")
+                st.info(f"📝 Punch data: {name} - Out - {timestamp}")
+            
+            verse = random.choice(volunteer_verses)
+            st.info(f"📖 Verse for you: {verse}")
+        
+        st.markdown('</div>', unsafe_allow_html=True)
     else:
-        st.info("📝 Please enter your name to start the punch out process.")
-        st.info("🔒 Location verification will begin once you enter your name.")
+        st.info("📝 Please enter your name to punch out.")
 
 else:
     # Default view - Registration only
@@ -526,9 +475,7 @@ else:
         cell_phone = st.text_input("Cell Phone*")
         email = st.text_input("Email")
         age = st.radio("Age*", ["14-18", "18+"])
-        st.markdown('</div>', unsafe_allow_html=True)
 
-       
         st.subheader("Station Assignment")
         st.markdown("**Select your preferred station and time slots:**")
         
